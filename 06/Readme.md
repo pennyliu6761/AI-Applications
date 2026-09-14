@@ -127,7 +127,7 @@ plot_boundary(linear_model, X, y, "邏輯迴歸（無隱藏層）的決策邊界
 
 ## Part 3｜企業智慧檢驗導入評估工作坊
 
-**目標**：以自己企業（或所屬產業常見情境）為對象，比較現行品管方式與導入 AI 檢驗的優劣。
+**目標**：以自己企業，或第 1 週選定的產業情境（尤其是製造業情境）為對象，比較現行品管方式與導入 AI 檢驗的優劣。
 
 **操作步驟：**
 1. 盤點目前的品管方式（人工抽檢比例、瑕疵率、瑕疵流入市場的後果）。
@@ -152,9 +152,93 @@ AI 全檢預估建置成本／維運成本：___________
 
 | 論文標題 | 期刊／年份 | 網址 |
 |---|---|---|
-| Hybrid Deep Learning for Predictive Maintenance in Industrial Machinery Using LSTM and MLP Models | *Machines* (MDPI), 2026, 14(2), 191 | <https://www.mdpi.com/2075-1702/14/2/191> |
+| Hybrid Deep Learning for Predictive Maintenance in Industrial Machinery Using LSTM and MLP Models（本週精讀範例） | *Machines* (MDPI), 2026, 14(2), 191 | <https://www.mdpi.com/2075-1702/14/2/191> |
 
-導讀示範重點：這篇論文用深度學習模型預測設備何時可能故障。閱讀時可以特別留意——論文有沒有討論模型的可解釋性問題？如果你是產線主管，光看模型輸出「這台設備 3 天內有 80% 機率故障」，你會需要什麼樣的補充資訊，才敢據此安排停機維護？
+### 教師示範精讀：一篇「雙層架構」論文怎麼拆解
+
+這篇論文的架構比較特別——它不是只用一個模型解決問題，而是設計了**兩層、各自獨立運作的模型**，很適合練習「拆解一個複合式研究設計」。
+
+**① 研究問題**：工廠設備故障預測面臨兩個現實困境：真正的故障事件很稀少（沒有大量標註好的「故障」資料可以訓練監督式模型），但企業又需要能提早示警的機制。
+
+**② 第一層——LSTM 自編碼器做異常偵測（非監督式）**：作者只用「正常運轉」的振動訊號訓練一個 LSTM 自編碼器（Autoencoder），模型的任務是學會「重建」正常訊號。當新的訊號進來時，如果模型重建得很差（重建誤差大），就代表這筆訊號「看起來不像正常運轉」，可能是異常前兆。門檻的定義方式是統計式的：**τ = μ + 3σ**（用驗證集重建誤差的平均值加三倍標準差），而不是憑感覺設定，這是非監督式異常偵測的標準做法。
+
+**③ 第二層——MLP 做故障分類（監督式）**：另外用六個操作參數（震動、溫度、壓力、馬達轉速、扭力、濕度）訓練一個簡單的多層感知器（MLP），直接判斷「現在是不是故障狀態」。這一層資料是不平衡的（正常 87.7% vs. 故障 12.3%），論文用精確率、召回率、F1、特異度（specificity）、MCC 等多種指標一起檢視，而不是只看準確率——這正是第 4 週學過的類別不平衡處理原則的真實應用案例。
+
+**④ 兩層架構是「並行」而非「串接」**：值得特別注意的是，這兩個模型是各自獨立運作、分析同一批資料流，最後才在決策層把兩邊的結果合併參考，並不是「先跑自編碼器，把異常的部分才丟給 MLP」這種串接關係。這種模組化設計的好處，是兩個模型可以分開維護、更新。
+
+**⑤ 論文誠實揭露的限制**：作者坦承 MLP 的「故障標籤」其實是用預先設定好的規則（例如震動超過某個數值）產生的，不是真實世界中人工確認過的故障事件——這代表 MLP 學到的其實是「規則的一致性」，而不是「發現規則以外的新故障模式」。這是研究設計上很誠實、也很值得學習的自我批判。
+
+**這篇論文對我們的啟示**：當你面對「異常事件很稀少」的預測性維護問題時，「非監督式異常偵測 + 監督式分類」的雙層架構，是業界常見且務實的解法，不需要一開始就強求一個模型解決所有問題。
+
+### Vibe Coding 簡易重現：用模擬振動訊號體驗 LSTM 自編碼器異常偵測
+
+**題目定義**：由於論文的真實資料集需要 Kaggle 帳號下載，這裡改用模擬的振動訊號資料，重現論文最核心的邏輯——訓練一個只看過「正常訊號」的自編碼器，並用 τ = μ + 3σ 的統計門檻找出異常。
+
+**給 AI 的提示詞：**
+```
+請用 Python 幫我做以下事情：
+1. 模擬產生一段 3000 個時間點的振動訊號，前 2500 個點是「正常」訊號
+   （用固定振幅的正弦波加上小幅隨機雜訊），後 500 個點在中間穿插幾段
+   「異常」訊號（振幅明顯變大或出現突波）
+2. 用滑動視窗（每 30 個時間點一組）把正常訊號切成訓練序列
+3. 用 Keras 建立一個簡單的 LSTM 自編碼器（LSTM 層 + Dense 層重建輸出），
+   只用正常訊號的序列訓練
+4. 計算每個測試序列的重建誤差（MAE），並用正常訊號驗證集的
+   「平均值 + 3倍標準差」設定異常門檻 τ
+5. 標出哪些測試序列的重建誤差超過門檻，畫圖呈現原始訊號與被標記的異常區段
+請給我可以在 Google Colab 直接執行的完整程式碼。
+```
+
+**預期產出的程式碼骨架：**
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow import keras
+from tensorflow.keras import layers
+
+# 模擬振動訊號
+np.random.seed(42)
+t = np.linspace(0, 100, 3000)
+signal = np.sin(t) + np.random.normal(0, 0.05, size=3000)
+signal[1500:1520] += np.random.normal(0, 0.6, size=20)   # 異常突波
+signal[2600:2630] += 0.8                                  # 異常偏移
+
+def make_sequences(data, window=30):
+    return np.array([data[i:i+window] for i in range(len(data) - window)])
+
+normal_part = signal[:1400]
+sequences = make_sequences(normal_part).reshape(-1, 30, 1)
+
+model = keras.Sequential([
+    layers.LSTM(32, input_shape=(30, 1)),
+    layers.RepeatVector(30),
+    layers.LSTM(32, return_sequences=True),
+    layers.TimeDistributed(layers.Dense(1)),
+])
+model.compile(optimizer="adam", loss="mae")
+model.fit(sequences, sequences, epochs=10, batch_size=32, verbose=0)
+
+val_sequences = make_sequences(signal[1400:1500]).reshape(-1, 30, 1)
+val_recon = model.predict(val_sequences, verbose=0)
+val_error = np.mean(np.abs(val_sequences - val_recon), axis=(1, 2))
+tau = val_error.mean() + 3 * val_error.std()
+print(f"異常門檻 τ = {tau:.4f}")
+
+test_sequences = make_sequences(signal).reshape(-1, 30, 1)
+test_recon = model.predict(test_sequences, verbose=0)
+test_error = np.mean(np.abs(test_sequences - test_recon), axis=(1, 2))
+anomaly_idx = np.where(test_error > tau)[0]
+print(f"偵測到 {len(anomaly_idx)} 個異常序列")
+
+plt.plot(signal, label="原始訊號")
+plt.scatter(anomaly_idx, signal[anomaly_idx], color="red", s=10, label="偵測到的異常")
+plt.legend()
+plt.show()
+```
+
+**延伸練習**：把異常突波的振幅調小（例如只加 0.2 而不是 0.8），觀察模型還能不能偵測到——這能讓你體會「訊號強度」與「偵測靈敏度」之間的關係，也是論文提到「閾值校準」需要仔細拿捏的原因。
+
+**管理意涵**：這個練習讓「非監督式異常偵測」不再是一個抽象名詞——各位親眼看到模型完全沒被告知「哪裡異常」，純粹靠「這段訊號重建得好不好」就抓出了不正常的區段，這正是論文標題「Hybrid」（混合式）架構中，非監督式那一半的核心價值：不需要昂貴的人工標註異常資料，也能做到早期預警。
 
 ---
 
@@ -162,4 +246,5 @@ AI 全檢預估建置成本／維運成本：___________
 
 1. 完成「智慧檢驗導入評估表」。
 2. 把 Part 2 的兩個 Vibe Coding 範例，自己在 Colab 跑過一次。
-3. 準備本週或後續幾週要上台的論文閱覽簡報。
+3. 把 Part 4 的 LSTM 自編碼器範例也跑過一次，並找時間把這篇雙層架構論文完整讀一遍。
+4. 準備本週或後續幾週要上台的論文閱覽簡報。
