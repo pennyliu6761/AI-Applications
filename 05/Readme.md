@@ -209,10 +209,10 @@ print(summary.sort_values("消費總額", ascending=False))
 
 ## Part 3｜RFM 行銷方案擬定工作坊
 
-**目標**：針對 Part 2 範例②產出的十大客群（或用自己企業的顧客資料），挑選其中 2–3 個客群，用 Excel 或試算表整理出具體的行銷方案。
+**目標**：針對 Part 2 範例②產出的十大客群（如果有自己企業或第 1 週選定產業情境的顧客資料，也可以直接替換使用），挑選其中 2–3 個客群，用 Excel 或試算表整理出具體的行銷方案。
 
 **操作步驟：**
-1. 從十大客群中，挑出對你的企業最關鍵的 2–3 個客群（建議至少包含一個「高價值」與一個「高風險」客群）。
+1. 從十大客群中，挑出你認為最關鍵的 2–3 個客群（建議至少包含一個「高價值」與一個「高風險」客群）。
 2. 用 Excel／Google 試算表，列出這幾個客群的人數、消費金額占比。
 3. 針對每個客群，設計具體的行銷方案：用什麼管道（簡訊／email／APP 推播）、提供什麼誘因（折扣／贈品／專屬服務）、預期成效如何衡量。
 
@@ -234,15 +234,66 @@ print(summary.sort_values("消費總額", ascending=False))
 
 | 論文標題 | 期刊／年份 | 網址 |
 |---|---|---|
-| A Mathematical Model for Customer Segmentation Leveraging Deep Learning, Explainable AI, and RFM Analysis in Targeted Marketing | *Mathematics* (MDPI), 2023, 11(18), 3930 | <https://www.mdpi.com/2227-7390/11/18/3930> |
+| A Mathematical Model for Customer Segmentation Leveraging Deep Learning, Explainable AI, and RFM Analysis in Targeted Marketing（本週精讀範例） | *Mathematics* (MDPI), 2023, 11(18), 3930 | <https://www.mdpi.com/2227-7390/11/18/3930> |
 | An Automated Machine Learning Framework for Interpretable Customer Segmentation in Financial Services | *Journal of Risk and Financial Management* (MDPI), 2025, 13(4), 243 | <https://www.mdpi.com/2227-7072/13/4/243> |
 
-導讀示範重點：這兩篇論文都是在 RFM 的基礎上，進一步結合機器學習或深度學習技術。閱讀時可以留意——作者為什麼認為傳統 RFM 不夠用？他們新增的技術解決了什麼限制？如果你是行銷主管，會不會直接採用這麼複雜的模型，還是傳統 RFM 分群已經夠用？這個「多複雜的模型才划算」的判斷，正是經理人在導入 AI 時最需要的商業判斷力。
+### 教師示範精讀：跟本週實作用同一份資料集的論文
+
+第一篇論文有個特別的地方，值得刻意拿來精讀——**作者驗證方法時使用的其中一份資料，正是本週 Part 2 範例①用的同一個 Mall Customer 資料集**，另一份則是電商交易資料（性質上與範例②的 Online Retail 資料集相近）。這代表我們可以直接拿自己剛剛跑出來的分群結果，跟論文的做法對照。
+
+**① 研究問題**：傳統 RFM 分群（或單純的 K-means）雖然好用，但有兩個限制——分群邏輯相對簡化，且分群結果「為什麼這樣分」不容易向行銷團隊解釋清楚。
+
+**② 論文提出的方法（DeepLimeSeg）**：作者結合深度學習模型與 **LIME（Local Interpretable Model-agnostic Explanations）**這種可解釋 AI 技術，設計出一套叫做 DeepLimeSeg 的分群方法。深度學習部分負責從顧客的人口統計資料、行為模式、購買歷史中找出更細緻的分群結構；LIME 則負責在分群完成後，回答「這位顧客為什麼被分到這一群」——針對每一筆分群結果，找出對這個判斷影響最大的幾個變數。
+
+**③ 驗證方式**：作者用 Mall Customer 與一份電商資料集，比較 DeepLimeSeg 與傳統 RFM 分析的表現，用 MSE（均方誤差）、MAE（平均絕對誤差）、R² 等指標衡量模型對「消費分數」的預測準確度。
+
+**④ 核心發現與限制**：論文顯示 DeepLimeSeg 在預測準確度上優於傳統方法，但論文本身也坦承模型存在過擬合、欠擬合等常見的深度學習限制，且需要更多運算資源。
+
+**這篇論文對我們的啟示**：K-means（本週 Part 2 教的方法）分群速度快、容易上手，但分群依據只能從「群中心的平均特徵」去推測；如果想更精確地知道「每一位顧客為什麼被分到這一群」，就需要像 LIME 這樣的可解釋 AI 工具。這正是「多複雜的模型才划算」的具體案例——技術上更強大，但也要換取更高的運算成本與理解門檻。
+
+### Vibe Coding 簡易重現：幫 K-means 的分群結果加上「為什麼」
+
+**題目定義**：接續 Part 2 範例①的 K-means 分群結果，用簡化版的方式體驗「可解釋 AI」的概念——不需要真的訓練深度學習模型，而是用決策樹去「模仿」K-means 的分群邏輯，因為決策樹的判斷規則是人類可以直接讀懂的，藉此示範論文中 LIME 想達到的效果：讓分群結果「可以被解釋」。
+
+**給 AI 的提示詞：**
+```
+接續 Part 2 範例①的 K-means 分群結果（df 裡已經有 Cluster 欄位），
+請幫我做以下事情：
+1. 用 Age、Annual Income (k$)、Spending Score (1-100) 三個特徵，
+   訓練一個決策樹分類器，去預測每位顧客的 Cluster 標籤
+   （目標是讓決策樹學會「模仿」K-means 的分群邏輯）
+2. 印出這個決策樹的規則（用 sklearn 的 export_text 或畫出樹狀圖）
+3. 針對其中一位顧客，印出決策樹判斷「他為什麼被分到這一群」的規則路徑
+請給我可以在 Google Colab 直接執行的完整程式碼。
+```
+
+**預期產出的程式碼骨架：**
+```python
+from sklearn.tree import DecisionTreeClassifier, export_text
+
+features = df[["Age", "Annual Income (k$)", "Spending Score (1-100)"]]
+labels = df["Cluster"]
+
+explainer_tree = DecisionTreeClassifier(max_depth=3, random_state=42)
+explainer_tree.fit(features, labels)
+
+rules = export_text(explainer_tree, feature_names=list(features.columns))
+print(rules)
+
+sample = features.iloc[[0]]
+predicted_cluster = explainer_tree.predict(sample)
+print(f"\n這位顧客被判定為第 {predicted_cluster[0]} 群，判斷依據如上方規則路徑所示。")
+```
+
+**延伸練習**：把 `max_depth` 從 3 調成 2，觀察規則是不是變得更簡單、但也更粗略——這正是「可解釋性」與「準確度」之間的取捨，跟論文討論的過擬合／欠擬合限制是同一個概念的不同呈現方式。
+
+**管理意涵**：這個練習用一個簡化但直觀的方式，體驗了論文核心概念「幫黑盒子模型加上一層可以理解的解釋」——這在行銷團隊要向管理層報告「為什麼要對這群顧客做這個行銷方案」時，是非常實用的溝通工具。
 
 ---
 
 ## ✅ 課後練習
 
-1. 完成「RFM 行銷方案擬定表」，作為期中報告「AI 導入方案設計」段落的補充素材（若你的期中報告主題是顧客關係管理相關）。
+1. 完成「RFM 行銷方案擬定表」。
 2. 把 Part 2 的兩個 Vibe Coding 範例，自己在 Colab 跑過一次，並記錄下你資料集中「冠軍」與「冬眠中」客群的人數與消費占比差距。
-3. 準備本週或後續幾週要上台的論文閱覽簡報。
+3. 把 Part 4 的可解釋性重現範例也跑過一次，並找時間把 DeepLimeSeg 那篇論文完整讀一遍。
+4. 準備本週或後續幾週要上台的論文閱覽簡報。
