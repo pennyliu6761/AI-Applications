@@ -6,4 +6,4 @@
 
 ## 📚 課程目錄
 
-- [01 AI-Assisted 實證研究：量表建構與智慧型因素分析 (EFA)](./Contents/README.md)
+- [01 AI-Assisted 實證研究：量表建構與智慧型因素分析 (EFA)](./Contents/Week01_AI輔助實證研究_量表建構與智慧型因素分析.md)
