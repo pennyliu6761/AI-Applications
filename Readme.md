@@ -12,5 +12,5 @@
 - [04 專家系統多準則排序：AHP、Fuzzy AHP 與 TOPSIS 模擬](./Contents/Week04_專家系統多準則排序_AHP_FuzzyAHP與TOPSIS.md)
 - [05 因果推論與圖形決策網絡：DEMATEL 與 INRM 演算法](./Contents/Week05_因果推論與圖形決策網絡_DEMATEL與INRM演算法.md)
 - [06 非線性反饋決策網絡：DANP 權重求解與 VIKOR 妥協優化](./Contents/Week06_非線性反饋決策網絡_DANP權重求解與VIKOR妥協優化.md)
-- [07 新型輕量化決策演算法：BWM 最佳化與直觀模糊集合 (IFS)](./Contents/Week01_AI輔助實證研究_量表建構與智慧型因素分析.md)
+- [07 新型輕量化決策演算法：BWM 最佳化與直觀模糊集合 (IFS)](./Contents/Week07_新型輕量化決策演算法_BWM最佳化與直觀模糊集合IFS.md)
 - [08 非監督式 AI 學習：多維度特徵投影與顧客智慧分群 (K-Means/PCA)](./Contents/Week01_AI輔助實證研究_量表建構與智慧型因素分析.md)
