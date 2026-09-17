@@ -15,3 +15,6 @@
 - [07 新型輕量化決策演算法：BWM 最佳化與直觀模糊集合 (IFS)](./Contents/Week07_新型輕量化決策演算法_BWM最佳化與直觀模糊集合IFS.md)
 - [08 非監督式 AI 學習：多維度特徵投影與顧客智慧分群 (K-Means/PCA)](./Contents/Week08_非監督式AI學習_多維度特徵投影與顧客智慧分群.md)
 - [09 集成學習預測決策_決策樹隨機森林與風險預警](./Contents/Week09_集成學習預測決策_決策樹隨機森林與風險預警.md)
+- [10 高效梯度提升機XGBoost_LightGBM與可解釋性AI_XAI_SHAP](./Contents/Week10_高效梯度提升機XGBoost_LightGBM與可解釋性AI_XAI_SHAP)
+- [11 混合式AI決策架構_結構方程模型結合類神經網路](./Contents/Week11_混合式AI決策架構_結構方程模型結合類神經網路)
+- [12 時序深度學習模型_長短期記憶網路_LSTM_趨勢模擬](./Contents/Week12_時序深度學習模型_長短期記憶網路_LSTM_趨勢模擬)
