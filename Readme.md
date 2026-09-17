@@ -18,5 +18,5 @@
 - [10 高效梯度提升機XGBoost_LightGBM與可解釋性AI_XAI_SHAP](./Contents/Week10_高效梯度提升機XGBoost_LightGBM與可解釋性AI_XAI_SHAP.md)
 - [11 混合式AI決策架構_結構方程模型結合類神經網路](./Contents/Week11_混合式AI決策架構_結構方程模型結合類神經網路.md)
 - [12 時序深度學習模型_長短期記憶網路_LSTM_趨勢模擬](./Contents/Week12_時序深度學習模型_長短期記憶網路_LSTM_趨勢模擬.md)
-- [13 非結構化文字智能：LDA/BERTopic與輿情情緒分析](./Contents/Week13_Week13_文字探勘與情緒分析.md)
+- [13 非結構化文字智能：LDA/BERTopic與輿情情緒分析](./Contents/Week13_文字探勘與情緒分析.md)
 - [14 生成式AI決策系統_RAG檢索增強與_LLM_Agent_模擬](./Contents/Week14_生成式AI決策系統_RAG檢索增強與_LLM_Agent_模擬.md)
