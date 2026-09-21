@@ -459,7 +459,7 @@ df_raw.head()
 
 df_clean = df_raw.copy()
 
-reverse_items = ['PEOU3']   # 對應 Step 1 中設定的反向題欄位
+reverse_items = ['PEOUitem_3']   # 對應 Step 1 中設定的反向題欄位
 likert_min, likert_max = 1, 7
 
 for col in reverse_items:
