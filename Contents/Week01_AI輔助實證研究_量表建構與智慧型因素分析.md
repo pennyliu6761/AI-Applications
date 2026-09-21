@@ -889,10 +889,10 @@ print("熱圖已儲存為 factor_loading_heatmap.png，可直接插入論文或�
 
 final_summary_rows = []
 factor_to_construct = {
-    'Factor1': 'PU（知覺有用性）',
-    'Factor2': 'PEOU（知覺易用性）',
-    'Factor3': 'TRUST（信任）',
-    'Factor4': 'INT（採用意向）',
+    'Factor1': 'PU', #（知覺有用性）
+    'Factor2': 'PEOU', #（知覺易用性）
+    'Factor3': 'TRUST', #（信任）
+    'Factor4': 'INT', #（採用意向）
 }
 
 for item in item_cols:
