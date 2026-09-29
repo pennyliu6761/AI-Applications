@@ -76,7 +76,7 @@ TAM 的理論限制在於：構念過於精簡，難以解釋組織情境中的�
 
 ### 3.2 整合性科技接受模式：UTAUT 與 UTAUT2
 
-**UTAUT（Unified Theory of Acceptance and Use of Technology）**由 Venkatesh, Morris, Davis, & Davis（2003）提出，整合了 TAM、TRA、計畫行為理論（TPB）、動機模型（MM）、PC 使用模型（MPCU）、創新擴散理論（IDT）與社會認知理論（SCT）共 8 個既有模型，萃取出四個核心預測構念：
+ **UTAUT（Unified Theory of Acceptance and Use of Technology）** 由 Venkatesh, Morris, Davis, & Davis（2003）提出，整合了 TAM、TRA、計畫行為理論（TPB）、動機模型（MM）、PC 使用模型（MPCU）、創新擴散理論（IDT）與社會認知理論（SCT）共 8 個既有模型，萃取出四個核心預測構念：
 
 | 構念 | 定義 | 理論來源 |
 |---|---|---|
