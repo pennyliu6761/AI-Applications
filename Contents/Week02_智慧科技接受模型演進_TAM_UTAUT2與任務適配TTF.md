@@ -334,6 +334,7 @@ from statsmodels.stats.anova import anova_lm
 # ------------------------------------------------------------
 # 匯入視覺化套件
 # ------------------------------------------------------------
+import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
