@@ -406,7 +406,7 @@ PE_c_true  = PE - PE.mean()
 TTF_c_true = TTF - TTF.mean()
 
 BI = (
-    1.5
+    -3.0
     + 0.32 * PE + 0.18 * EE + 0.15 * SI + 0.20 * FC
     + 0.22 * HM + 0.10 * PV + 0.12 * HT
     + 0.28 * TTF
@@ -426,6 +426,8 @@ df_raw = pd.DataFrame({
 print(f"模擬問卷資料維度：{df_raw.shape[0]} 位受訪者 × {df_raw.shape[1]} 個變數")
 df_raw.head()
 ```
+
+<img width="579" height="214" alt="image" src="https://github.com/user-attachments/assets/2cdc92a1-f059-4a67-85ed-97c8b34b109a" />
 
 ### Step 2：描述性統計與相關矩陣
 
@@ -455,6 +457,10 @@ plt.savefig('correlation_heatmap.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
 
+<img width="301" height="403" alt="image" src="https://github.com/user-attachments/assets/07f683fc-90b8-477d-8a7b-33bf2f83612a" />
+<img width="527" height="341" alt="image" src="https://github.com/user-attachments/assets/2ad019a4-ac0e-485a-85d8-a9e290b90919" />
+<img width="754" height="590" alt="image" src="https://github.com/user-attachments/assets/baa9d79f-5536-418d-a077-528f08dbf07f" />
+
 ### Step 3：平減（Mean-Centering）與交互作用項建構
 
 ```python
@@ -481,6 +487,8 @@ df['PE_x_TTF'] = df['PE_c'] * df['TTF_c']
 print("\n交互作用項 PE_x_TTF 已建構完成，前 5 筆資料如下：")
 display(df[['PE', 'TTF', 'PE_c', 'TTF_c', 'PE_x_TTF']].head())
 ```
+
+<img width="595" height="371" alt="image" src="https://github.com/user-attachments/assets/d71cde87-2531-4cfb-81d3-381a3ef09e9c" />
 
 ### Step 4：共線性診斷（VIF）
 
@@ -512,6 +520,8 @@ vif_result['Flag'] = np.where(vif_result['VIF'] < 10, '可接受', '需注意共
 print("=== 表 3：VIF 共線性診斷結果 ===")
 display(vif_result.round(3))
 ```
+
+<img width="600" height="407" alt="image" src="https://github.com/user-attachments/assets/f7fa7b28-6187-4c12-bfbc-4c48674f9c93" />
 
 ### Step 5：階層式迴歸分析（Model 1 → Model 2 → Model 3）
 
@@ -592,6 +602,8 @@ print("=== 表 4：階層式迴歸模型摘要表（R² 改變量檢定）===")
 display(model_comparison.round(4))
 ```
 
+<img width="609" height="156" alt="image" src="https://github.com/user-attachments/assets/217b27f9-cd6e-408a-b91b-83b482fbc741" />
+
 ### Step 6：完整迴歸係數表輸出
 
 ```python
@@ -624,6 +636,8 @@ if interaction_row['p_value'].values[0] < 0.05:
 else:
     print("\n⚠️ PE × TTF 交互作用項未達統計顯著，H7 未獲支持。")
 ```
+
+<img width="618" height="506" alt="image" src="https://github.com/user-attachments/assets/248c365e-83bf-436a-940b-346dcddb5abc" />
 
 ### Step 6.5：迴歸模型診斷（殘差常態性、同質變異、自我相關）
 
@@ -684,7 +698,8 @@ print(f"Breusch-Pagan 異質變異檢定：LM = {bp_stat:.4f}, p = {bp_p:.4f}"
       f"（{'同質變異假設成立' if bp_p >= 0.05 else '存在異質變異，建議報告穩健標準誤'}）")
 ```
 
-
+<img width="1589" height="440" alt="image" src="https://github.com/user-attachments/assets/0eb9666a-3ee8-469b-88aa-1d2f390f68f0" />
+<img width="606" height="69" alt="image" src="https://github.com/user-attachments/assets/c363287f-7f21-4e9f-94bf-81579312dab4" />
 
 ```python
 # ============================================================
@@ -732,6 +747,8 @@ plt.tight_layout()
 plt.savefig('forest_plot.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
+
+<img width="790" height="590" alt="image" src="https://github.com/user-attachments/assets/a30da7e5-c811-4561-9593-958ae5b284cc" />
 
 ### Step 8：Simple Slope 調節效應分析
 
@@ -797,6 +814,8 @@ print("=== 表 6：Simple Slope 分析結果（PE → BI，依 TTF 水準分組�
 display(simple_slope_table.round(4))
 ```
 
+<img width="602" height="153" alt="image" src="https://github.com/user-attachments/assets/6e296eaa-dad5-4b88-89dd-c14dde5caf6a" />
+
 ### Step 9：Simple Slope 視覺化
 
 ```python
@@ -834,6 +853,9 @@ print("代表任務科技適配度越高，績效期望對使用意願的促進�
 print("此為典型的「增強型調節效果（enhancing moderation）」型態。")
 ```
 
+<img width="790" height="590" alt="image" src="https://github.com/user-attachments/assets/9ecec0e1-9116-47d2-bf8b-a2b40125cda5" />
+<img width="600" height="64" alt="image" src="https://github.com/user-attachments/assets/a454b601-6e12-455b-8441-633cf4e505b6" />
+
 ### Step 10：匯出所有分析結果
 
 ```python
@@ -850,107 +872,6 @@ with pd.ExcelWriter('迴歸與調節效應分析結果_Week02.xlsx') as writer:
     simple_slope_table.round(4).to_excel(writer, sheet_name='SimpleSlope分析', index=False)
 
 print("所有統計結果已匯出至 迴歸與調節效應分析結果_Week02.xlsx，可於 Colab 左側檔案面板下載。")
-```
-
-### Step 11：封裝完整分析管道為可重複使用函式
-
-```python
-# ============================================================
-# Cell 11：將本週完整分析流程封裝為單一函式
-# ------------------------------------------------------------
-# 教學目的：
-# 展示如何將一連串分散的 Cell，重構為一個可重複呼叫、
-# 可用於不同研究主題資料的「分析管道函式（pipeline function）」，
-# 這是從課堂練習過渡到真實研究工作流程的重要工程能力，
-# 也是 Vibe Coding 協作中，向 AI 請求「重構程式碼」時
-# 最常見的實務情境。
-# ============================================================
-
-def run_moderation_analysis(data, iv, mod, dv, controls=None, alpha=0.05):
-    """
-    執行完整之階層式迴歸 + 調節效應分析管道。
-
-    參數說明：
-    - data: 包含所有變數之 pandas DataFrame
-    - iv: 自變數欄位名稱（字串）
-    - mod: 調節變數欄位名稱（字串）
-    - dv: 依變數欄位名稱（字串）
-    - controls: 控制變數欄位名稱列表，預設為 None
-    - alpha: 顯著水準，預設 .05
-
-    回傳：
-    - 一個字典，包含三個模型物件、模型比較表、Simple Slope 結果表
-    """
-    df_local = data.copy()
-    controls = controls or []
-
-    # Step A：平減自變數與調節變數
-    df_local[f'{iv}_c']  = df_local[iv] - df_local[iv].mean()
-    df_local[f'{mod}_c'] = df_local[mod] - df_local[mod].mean()
-    df_local[f'{iv}_x_{mod}'] = df_local[f'{iv}_c'] * df_local[f'{mod}_c']
-
-    # Step B：建立三階層迴歸公式字串
-    control_terms = ' + '.join(controls) if controls else '1'
-    formula1 = f'{dv} ~ {control_terms}'
-    formula2 = f'{dv} ~ {control_terms} + {iv} + {mod}'
-    formula3 = f'{dv} ~ {control_terms} + {iv}_c + {mod}_c + {iv}_x_{mod}'
-
-    m1 = smf.ols(formula1, data=df_local).fit()
-    m2 = smf.ols(formula2, data=df_local).fit()
-    m3 = smf.ols(formula3, data=df_local).fit()
-
-    # Step C：模型比較表
-    comparison = pd.DataFrame({
-        'Model': ['Model 1', 'Model 2', 'Model 3'],
-        'R2': [m1.rsquared, m2.rsquared, m3.rsquared],
-    })
-    comparison['Delta_R2'] = comparison['R2'].diff()
-
-    # Step D：Simple Slope 分析（自動計算 ± 1SD 三水準）
-    b_iv  = m3.params[f'{iv}_c']
-    b_int = m3.params[f'{iv}_x_{mod}']
-    mod_sd = df_local[f'{mod}_c'].std()
-    cov = m3.cov_params()
-
-    slope_rows = []
-    for level_name, level_val in [('低', -mod_sd), ('中', 0), ('高', mod_sd)]:
-        slope = b_iv + b_int * level_val
-        var_slope = (
-            cov.loc[f'{iv}_c', f'{iv}_c']
-            + 2 * level_val * cov.loc[f'{iv}_c', f'{iv}_x_{mod}']
-            + (level_val ** 2) * cov.loc[f'{iv}_x_{mod}', f'{iv}_x_{mod}']
-        )
-        se = np.sqrt(var_slope)
-        t_val = slope / se
-        p_val = 2 * (1 - stats.t.cdf(abs(t_val), m3.df_resid))
-        slope_rows.append({
-            'Level': f'{level_name} {mod}', 'Simple_Slope': slope,
-            'SE': se, 't': t_val, 'p': p_val,
-            'Sig': '是' if p_val < alpha else '否'
-        })
-
-    return {
-        'model1': m1, 'model2': m2, 'model3': m3,
-        'comparison': comparison,
-        'simple_slopes': pd.DataFrame(slope_rows)
-    }
-
-# ------------------------------------------------------------
-# 呼叫範例：直接重現本週 Step 5–8 之完整分析結果
-# ------------------------------------------------------------
-result = run_moderation_analysis(
-    data=df, iv='PE', mod='TTF', dv='BI', controls=['age', 'gender']
-)
-
-print("=== 管道函式輸出：模型比較表 ===")
-display(result['comparison'].round(4))
-
-print("\n=== 管道函式輸出：Simple Slope 分析表 ===")
-display(result['simple_slopes'].round(4))
-
-print("\n此函式之最大價值：日後研究若更換自變數（例如改為 EE）或調節變數")
-print("（例如改為數位包容性），只需重新呼叫 run_moderation_analysis()")
-print("並替換參數，即可立即得到完整分析結果，無需重寫整段分析程式碼。")
 ```
 
 ---
@@ -975,7 +896,7 @@ print("並替換參數，即可立即得到完整分析結果，無需重寫整�
 
 **範例 5：結果段落初稿撰寫**
 
-> 根據以下統計結果（Model 3 之 R² = .58，ΔR² 相較 Model 2 增加 .04，F 值改變量達顯著 p &lt; .01；PE×TTF 交互作用項標準化 β = .19，p &lt; .01；高 TTF 組簡單斜率 = .45，p &lt; .001，低 TTF 組簡單斜率 = .21，p &lt; .05），請以碩士論文研究結果章節的學術寫作語氣，撰寫一段約 300 字的中文分析段落，說明調節效應的統計證據與實質意涵。
+> 根據以下統計結果（Model 3 之 R² = .684，ΔR² 相較 Model 2 增加 .111，F 值改變量達顯著 p &lt; .001；PE×TTF 交互作用項標準化 β = .19，p &lt; .001；高 TTF 組簡單斜率 = .45，p &lt; .001，低 TTF 組簡單斜率 = .21，p &lt; .05），請以碩士論文研究結果章節的學術寫作語氣，撰寫一段約 300 字的中文分析段落，說明調節效應的統計證據與實質意涵。
 
 **範例 6：模型診斷結果解讀**
 
@@ -995,15 +916,15 @@ print("並替換參數，即可立即得到完整分析結果，無需重寫整�
 >
 > **4.3 調節效應與 Simple Slope 分析**
 >
-> Model 3 之迴歸係數結果顯示，PE × TTF 交互作用項之標準化係數為 β = .19（p &lt; .01），支持研究假設 H7。為進一步釐清此調節效應之具體型態，本研究依 Aiken 與 West（1991）之建議，於任務科技適配度平均數上下一個標準差處進行簡單斜率分析。結果顯示，當任務科技適配度處於高水準時，績效期望對使用意願之簡單斜率為 .45（p &lt; .001）；當任務科技適配度處於低水準時，簡單斜率降為 .21（p &lt; .05）。此結果顯示，隨著使用者知覺該對話式 AI 虛擬助理與其任務需求之適配程度提升，績效期望對其使用意願之促進效果亦隨之增強，呈現典型之增強型調節效果（enhancing moderation）。
+> Model 3 之迴歸係數結果顯示，PE × TTF 交互作用項之標準化係數為 β = .19（p &lt; .001），支持研究假設 H7。為進一步釐清此調節效應之具體型態，本研究依 Aiken 與 West（1991）之建議，於任務科技適配度平均數上下一個標準差處進行簡單斜率分析。結果顯示，當任務科技適配度處於高水準時，績效期望對使用意願之簡單斜率為 .45（p &lt; .001）；當任務科技適配度處於低水準時，簡單斜率降為 .21（p &lt; .05）。此結果顯示，隨著使用者知覺該對話式 AI 虛擬助理與其任務需求之適配程度提升，績效期望對其使用意願之促進效果亦隨之增強，呈現典型之增強型調節效果（enhancing moderation）。
 
 **APA 格式三線表範例：階層式迴歸模型摘要表**
 
-| 模型 | 納入變數 | R² | Adj. R² | ΔR² | F 改變量 | p 值 |
+| 模型 | 納入變數 | R² | Adj. R² | ΔR² | F (模型差異) | p 值(模型差異) |
 |---|---|---|---|---|---|---|
-| Model 1 | 年齡、性別 | .02 | .01 | — | 1.42 | .243 |
-| Model 2 | + PE, EE, SI, FC, HM, PV, HT, TTF | .54 | .53 | .52 | 39.87 | &lt; .001 |
-| Model 3 | + PE × TTF | .58 | .57 | .04 | 8.13 | .005 |
+| Model 1 | 年齡、性別 | .091 | .084 | — | — | — |
+| Model 2 | + PE, EE, SI, FC, HM, PV, HT, TTF | .573 | .557 | .481 | 40.652 | &lt; .001 |
+| Model 3 | + PE × TTF | .684 | .672 | .112 | 102.366 | &lt; .001 |
 
 *註：以上數值為示範用途，實際數值請以學生自己資料之 Colab 輸出為準。*
 
