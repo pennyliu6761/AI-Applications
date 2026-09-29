@@ -337,14 +337,12 @@ from statsmodels.stats.anova import anova_lm
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# ------------------------------------------------------------
-# 設定中文字型（沿用第 1 週相同設定邏輯）
-# ------------------------------------------------------------
-!wget -q https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf -O /content/NotoSansTC.otf
-from matplotlib import font_manager
-font_manager.fontManager.addfont('/content/NotoSansTC.otf')
-plt.rcParams['font.family'] = 'Noto Sans CJK TC'
-plt.rcParams['axes.unicode_minus'] = False
+# Colab 進行matplotlib繪圖時顯示繁體中文
+# 下載台北思源黑體並命名taipei_sans_tc_beta.ttf，移至指定路徑
+!wget -O TaipeiSansTCBeta-Regular.ttf https://drive.google.com/uc?id=1eGAsTN1HBpJAkeVM57_C7ccp7hbgSz3_&export=download
+matplotlib.font_manager.fontManager.addfont('TaipeiSansTCBeta-Regular.ttf')
+matplotlib.rc('font', family = 'Taipei Sans TC Beta')
+#plt.rcParams['font.family'] = 'Taipei Sans TC Beta'
 
 # ------------------------------------------------------------
 # pandas 顯示設定
