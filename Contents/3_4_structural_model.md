@@ -1,6 +1,6 @@
 # 3.4 結構模型評鑑：R²、f²、Q² 與路徑係數 —— Excel 逐步計算範例
 
-> 延續 [3.2 信度與收斂效度](./README.md)、[3.3 區別效度](./README_3.3_discriminant_validity.md) 的做法，本範例使用 **4 個構念 × 3 題、30 位受試者** 的模擬資料，在 Excel 中逐步計算：
+> 延續 3.2 信度與收斂效度、3.3 區別效度 的做法，本範例使用 **4 個構念 × 3 題、30 位受試者** 的模擬資料，在 Excel 中逐步計算：
 > **構念分數 → VIF → 路徑係數 β → R² → f² → Q² → Bootstrapping 顯著性 → GoF**。
 
 配套檔案：[`PLS_SEM_structural_model_example.xlsx`](./PLS_SEM_structural_model_example.xlsx)（所有數值皆為 Excel 公式，修改原始資料即自動重算）
