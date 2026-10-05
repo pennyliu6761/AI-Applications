@@ -51,7 +51,7 @@
 
 
 $$
-HTMT_{ij}=\frac{\dfrac{1}{n_i n_j}\displaystyle\sum_{k=1}^{n_i}\sum_{l=1}^{n_j}\left|r_{ik,jl}\right|}{\sqrt{\dfrac{2}{n_i(n_i-1)}\displaystyle\sum_{k<k'}\left|r_{ik,ik'}\right|\cdot\dfrac{2}{n_j(n_j-1)}\displaystyle\sum_{l<l'}\left|r_{jl,jl'}\right|}}
+HTMT_{ij} = \frac{\dfrac{1}{n_i \cdot n_j}\displaystyle\sum_{k=1}^{n_i}\sum_{l=1}^{n_j} \left| r_{ik,jl} \right|}{\sqrt{\dfrac{2}{n_i(n_i-1)}\displaystyle\sum r_{i} \cdot \dfrac{2}{n_j(n_j-1)}\displaystyle\sum r_{j}}}
 $$
 
 
