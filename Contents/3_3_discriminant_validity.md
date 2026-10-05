@@ -49,9 +49,11 @@
 | Fornell-Larcker（1981） | $\sqrt{AVE_i} > r_{ij}\quad \forall j\neq i$ | 每個構念的 √AVE 大於它與其他所有構念的相關 |
 | HTMT（Henseler et al., 2015） | 見下方 | HTMT < 0.90（概念差異大的構念，採更嚴格的 < 0.85） |
 
+
 $$
 HTMT_{ij}=\frac{\dfrac{1}{n_i n_j}\displaystyle\sum_{k=1}^{n_i}\sum_{l=1}^{n_j}\left|r_{ik,jl}\right|}{\sqrt{\dfrac{2}{n_i(n_i-1)}\displaystyle\sum_{k<k'}\left|r_{ik,ik'}\right|\cdot\dfrac{2}{n_j(n_j-1)}\displaystyle\sum_{l<l'}\left|r_{jl,jl'}\right|}}
 $$
+
 
 用白話拆解這個公式：
 
