@@ -194,7 +194,7 @@ $$
 
 ### 3.7 期望確認模型（ECM-IT）與 TAM 整合框架
 
-**期望確認模型（Expectation Confirmation Model of IT Continuance, ECM-IT）**由 Bhattacherjee（2001）提出，其理論根源來自消費者行為領域之期望不確定理論（Expectation Disconfirmation Theory, EDT），核心邏輯為：使用者在採用資訊系統「之前」形成一組初始期望；在實際使用「之後」，將實際感受到的績效與初始期望進行比較，形成「確認程度（Confirmation）」；確認程度越高（實際表現符合或超越預期），使用者滿意度越高，進而正向影響其持續使用意願（Continuance Intention）。ECM-IT 之核心路徑為：
+**期望確認模型（Expectation Confirmation Model of IT Continuance, ECM-IT）** 由 Bhattacherjee（2001）提出，其理論根源來自消費者行為領域之期望不確定理論（Expectation Disconfirmation Theory, EDT），核心邏輯為：使用者在採用資訊系統「之前」形成一組初始期望；在實際使用「之後」，將實際感受到的績效與初始期望進行比較，形成「確認程度（Confirmation）」；確認程度越高（實際表現符合或超越預期），使用者滿意度越高，進而正向影響其持續使用意願（Continuance Intention）。ECM-IT 之核心路徑為：
 
 $$
 \text{確認程度（Confirmation）} \to \text{知覺有用性（PU）}
