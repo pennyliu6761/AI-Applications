@@ -435,6 +435,7 @@ data = pd.DataFrame({
 print(f"模擬問卷資料維度：{data.shape[0]} 位受訪者 × {data.shape[1]} 個題項")
 data.head()
 ```
+<img width="986" height="271" alt="image" src="https://github.com/user-attachments/assets/ed3a1ee7-5eb7-42b2-9ddd-103ec1191286" />
 
 ### Step 2：建構 PLS 路徑模型結構
 
@@ -541,6 +542,10 @@ for construct in unidim.index:
     print(f"{construct}：CR = {cr:.3f} {cr_ok}　AVE = {ave:.3f} {ave_ok}")
 ```
 
+<img width="786" height="537" alt="image" src="https://github.com/user-attachments/assets/8f924879-8e0c-4efb-b6ca-9d8b07b06a19" />
+<img width="686" height="534" alt="image" src="https://github.com/user-attachments/assets/2f9a7480-b8fe-425d-9ef2-59bb503b5133" />
+<img width="758" height="541" alt="image" src="https://github.com/user-attachments/assets/fb58e04f-f2df-4842-bde9-ab66dd4adc5c" />
+
 ### Step 5：區別效度評鑑（Fornell-Larcker 與 HTMT）
 
 ```python
@@ -625,6 +630,8 @@ htmt_pass = (htmt_matrix.fillna(0) < 0.90).all().all()
 print(f"\nHTMT 準則判定：{'✅ 所有構念配對之 HTMT 均低於 0.90，區別效度成立' if htmt_pass else '⚠️ 存在 HTMT ≥ 0.90 之構念配對，區別效度疑慮'}")
 ```
 
+<img width="701" height="501" alt="image" src="https://github.com/user-attachments/assets/c919eb17-74c2-4694-9d9a-cbe171b28452" />
+
 ### Step 6：結構模型路徑係數與 Bootstrapping 顯著性檢定
 
 ```python
@@ -662,6 +669,8 @@ for path, hyp in hypothesis_map.items():
         result = '成立' if row['Significant'].startswith('是') else '不成立'
         print(f"{hyp}（{path}）：β = {row['original']:.3f}，{row['Significant']} → 假設{result}")
 ```
+
+<img width="703" height="595" alt="image" src="https://github.com/user-attachments/assets/0f6b2b8c-e01f-470a-9efc-df26a22dcd0a" />
 
 ### Step 7：中介效果分析（Bootstrapping 間接效果檢定）
 
@@ -736,6 +745,8 @@ print("\n=== 表 9：中介效果 Bootstrapping 檢定結果（H6、H7）===")
 display(mediation_table.round(4))
 ```
 
+<img width="952" height="419" alt="image" src="https://github.com/user-attachments/assets/12867159-6df9-4552-bbe9-4c08001c8601" />
+
 ### Step 8：因果路徑結構圖繪製
 
 ```python
@@ -789,6 +800,8 @@ plt.tight_layout()
 plt.savefig('path_diagram.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
+
+<img width="989" height="590" alt="image" src="https://github.com/user-attachments/assets/250f6b36-d3f5-4d75-b448-ab1d303bea1d" />
 
 ### Step 8.5：Q² 預測相關性簡化替代估計（交叉驗證法）
 
