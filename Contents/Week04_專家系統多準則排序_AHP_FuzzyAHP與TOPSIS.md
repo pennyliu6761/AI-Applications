@@ -174,7 +174,7 @@ $$
 倒數關係亦相應轉換：
 
 $$
-\tilde{a}_{ij} = (l, m, u), \quad \tilde{a}_{ji} = (1/u, 1/m, 1/l)
+\tilde{a}_{ij} = (l, m, u), \quad \tilde{a}_{ji} = (\frac{1}{u}, \frac{1}{m}, \frac{1}{l})
 $$
 
 **Chang（1996）擴展分析法（Extent Analysis Method）求解流程**：
@@ -1108,7 +1108,7 @@ $$
 
 經完整計算（過程從略），近似權重向量約為 $w \approx (0.539, 0.163, 0.298)$ ，與 `numpy.linalg.eig()` 之精確特徵向量解通常僅有小數點後第二、三位之些微差異。
 
-**步驟三：計算$\lambda_{max}$**
+**步驟三：計算 $\lambda_{max}$**
 
 $$
 \lambda_{max} = \frac{1}{n}\sum_{i=1}^{n} \frac{(Aw)_i}{w_i}
